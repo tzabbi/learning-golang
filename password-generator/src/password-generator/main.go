@@ -1,3 +1,39 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"os"
+	"strconv"
+	"strings"
+)
+
+var (
+	lowerCharSet   = "abcdedfghijklmnopqrst"
+	upperCharSet   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	specialCharSet = "!_?-#"
+	numberSet      = "0123456789"
+)
+
+func main() {
+
+	var passwordLength int
+	argsWithProg := os.Args[1:2]
+
+	fmt.Println("This is the only password generator you'll ever need!")
+	if len(argsWithProg) == 0 {
+		passwordLength = checkUserInput()
+	} else if len(argsWithProg) == 1 {
+		passwordLength, _ = strconv.Atoi(argsWithProg[0])
+	} else {
+		fmt.Println("Just enter one value!")
+	}
+	for passwordLength == 0 {
+		fmt.Println("Your value is not a valid number!")
+		passwordLength = checkUserInput()
+	}
+	fmt.Println(generatePassword(passwordLength))
+}
 
 func generatePassword(passwordLength int) (password string) {
 
@@ -12,6 +48,7 @@ func generatePassword(passwordLength int) (password string) {
 	}
 	return
 }
+
 func checkUserInput() (userInputhLength int) {
 	var userInput string
 	fmt.Print("Please enter the length of your password: ")
