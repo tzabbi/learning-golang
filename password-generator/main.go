@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var (
@@ -18,19 +18,12 @@ var (
 func main() {
 
 	var passwordLength int
-	argsWithProg := os.Args[1:2]
 
-	fmt.Println("This is the only password generator you'll ever need!")
-	if len(argsWithProg) == 0 {
-		passwordLength = checkUserInput()
-	} else if len(argsWithProg) == 1 {
-		passwordLength, _ = strconv.Atoi(argsWithProg[0])
-	} else {
-		fmt.Println("Just enter one value!")
-	}
 	for passwordLength == 0 {
 		fmt.Println("Your value is not a valid number!")
-		passwordLength = checkUserInput()
+		if passwordLength == 0 {
+			passwordLength = checkUserInput()
+		}
 	}
 	fmt.Println(generatePassword(passwordLength))
 }
@@ -40,6 +33,8 @@ func generatePassword(passwordLength int) (password string) {
 	// TODO: generate always another string not the same
 	charSet := lowerCharSet + upperCharSet + specialCharSet + numberSet
 	characterCount := len(charSet)
+
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	for i := 0; i < passwordLength; i++ {
 		randomPosition := rand.Intn(characterCount)
